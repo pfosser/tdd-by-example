@@ -1,8 +1,24 @@
 package guru.springframework;
 
-public class Bank {
+import java.util.HashMap;
+import java.util.Map;
 
-	Money reduce(Expression source, String toCurrency) {
-		return Money.dollar(10);
+public class Bank {
+	
+	private Map<Pair, Integer> rateMap = new HashMap<>();
+
+	Expression reduce(Expression source, String toCurrency) {
+		return source.reduce(this, toCurrency);
+	}
+	
+	public int rate(String from, String to) {
+		if (from.equals(to))
+			return 1;
+
+		return rateMap.get(new Pair(from, to));
+	}
+
+	public void addRate(String from, String to, int rate) {
+		rateMap.put(new Pair(from, to), rate);
 	}
 }
